@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../lib/src/flutter_hooks_sidebar.dart';
-import '../lib/src/sidebar_tab.dart';
+import 'package:flutter_hooks_sidebar/flutter_hooks_sidebar.dart';
 
 void main() {
   runApp(ProviderScope(child: MaterialApp(home: MyScaffold())));
@@ -19,22 +18,16 @@ class MyScaffold extends HookWidget {
   }
 }
 
-class LeftMenuSelectedController extends StateNotifier<String> {
-  LeftMenuSelectedController(state) : super(state);
-
-  // onTabChangeに渡す
-  setKey(Key tabId) {
-    if (tabId is ValueKey<String>) state = tabId.value;
-  }
-}
-
 class RoutePathController extends StateNotifier<RoutePath> {
   RoutePathController(state) : super(state);
 
-  setRoutePath(RoutePath path) {
+  void setRoutePath(RoutePath path) {
     state = path;
   }
 }
+
+final routePathProvider =
+    StateNotifierProvider((ref) => RoutePathController(ChapAPath()));
 
 abstract class RoutePath {}
 
@@ -46,13 +39,10 @@ class ChapB1Path extends RoutePath {}
 
 class ChapB2Path extends RoutePath {}
 
-final leftMenuSelectedProvider =
-    StateNotifierProvider((ref) => LeftMenuSelectedController('Chap_B'));
-
 class MyHomePage extends HookWidget {
   @override
   Widget build(BuildContext context) {
-    final _controller = useProvider(leftMenuSelectedProvider);
+    final _controller = useProvider(routePathProvider);
 
     // 一つしか無い場合は常に選択状態。
     // sidebarTabにPathを入れられるようにすれば便利？
@@ -90,12 +80,13 @@ class MyHomePage extends HookWidget {
           ],
 
           /// childがあるときは[1]のような一階層の指定はだめ
+          /// StateNotifierProviderの初期化との整合性を取るのが面倒
           activeTabIndices: [1, 1],
           // ListTileのonTapにそのまま渡される
           // 関数渡しにすると上手くいくが、ここで波括弧を展開して、
           // 中でcontrollerを処理しようとすると、
           // widgetの内部のstateまで干渉する感じ
-          onTabChanged: _controller.setKey,
+          onTabChanged: _controller.setRoutePath,
         ),
         VerticalDivider(thickness: 1, width: 1),
         Expanded(
@@ -111,9 +102,9 @@ class MyHomePage extends HookWidget {
 class MyMainWidget extends HookWidget {
   @override
   Widget build(BuildContext context) {
-    final key = useProvider(leftMenuSelectedProvider.state);
+    final routePath = useProvider(routePathProvider.state);
     return Container(
-      child: Text(key),
+      child: Text('$routePath'),
     );
   }
 }

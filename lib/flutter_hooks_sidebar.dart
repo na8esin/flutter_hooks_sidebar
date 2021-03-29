@@ -1,7 +1,8 @@
 library flutter_hooks_sidebar;
 
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
-}
+export 'src/custom_expansion_tile.dart';
+export 'src/rotating_translation_arrow.dart';
+export 'src/sidebar.dart';
+export 'src/sidebar_controller.dart';
+export 'src/sidebar_parameter.dart';
+export 'src/sidebar_tab.dart';
