@@ -10,25 +10,25 @@ import 'rotating_translation_arrow.dart';
 
 /// SidebarがすべてのSidebarItemの頂点にいて制御している
 /// SidebarItemは再帰的に増えていく
+/// TODO: iconSizeが固定
 class Sidebar<T> extends HookWidget {
   Sidebar(
       {required this.tabs,
-      required this.onTabChanged, // exampleでセットされる
+      required this.controller,
+      this.defaultRoutePath,
       this.activeTabIndices,
       this.key})
       : super(key: key);
   final Key? key;
   // 型が曖昧だったの作り替えた
   final List<SidebarTab> tabs;
-  // 引数のstringはtabId. tabIdってなに？
-  final void Function(T) onTabChanged;
+  final SidebarController<T> controller;
+  final T? defaultRoutePath;
   final List<int>? activeTabIndices;
 
   @override
   Widget build(BuildContext context) {
     const _iconSizeWithPadding = 48.0;
-    final controller = useProvider(sidebarControllerProvider(
-        SidebarParameter(activeTabIndices: activeTabIndices, tabs: tabs)));
     final animationController = useAnimationController(
         duration: const Duration(milliseconds: 250), initialValue: 1.0);
     final x = animationController.value;
@@ -37,7 +37,7 @@ class Sidebar<T> extends HookWidget {
     return ConstrainedBox(
       constraints: BoxConstraints(
           minWidth: _iconSizeWithPadding,
-          // 初期が_iconSizeWithPaddingで最後は160になる
+          // 初期が_iconSizeWithPaddingで最後は168になる
           maxWidth: (2.5 * x + 1) * _iconSizeWithPadding),
       child: Column(
         children: [
@@ -54,11 +54,11 @@ class Sidebar<T> extends HookWidget {
           ),
           Expanded(
             child: ListView.builder(
-              itemBuilder: (BuildContext context, int index) => SidebarItem(
+              itemBuilder: (BuildContext context, int index) => SidebarItem<T>(
                 data: tabs[index],
                 controller: controller,
                 animationController: animationController,
-                onTabChanged: onTabChanged,
+                onTabChanged: controller.setRoutePath,
                 // builderが作り出すただの連番
                 index: index,
               ),
@@ -83,7 +83,7 @@ class SidebarItem<T> extends HookWidget {
   final SidebarTab data;
 
   /// 主にタブの選択状態の管理
-  final SidebarController controller;
+  final SidebarController<T> controller;
   final AnimationController animationController;
 
   /// 押した時に右の画面を変化させるみたいな使い方

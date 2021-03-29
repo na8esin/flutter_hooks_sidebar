@@ -5,10 +5,23 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'sidebar_parameter.dart';
 import 'sidebar_tab.dart';
 
-class SidebarController extends StateNotifier<SidebarParameter> {
+class SidebarController<T> extends StateNotifier<SidebarParameter<T>> {
   // ここでのstateはactiveTab
-  SidebarController(SidebarParameter state) : super(state) {
+  SidebarController(SidebarParameter<T> state) : super(state) {
     init();
+  }
+
+  SidebarTab<T> findRoutePath<T>(
+      List<SidebarTab<T>> tabs, List<int> activeTabIndices) {
+    SidebarTab<T>? find;
+    for (int i = 0; i < activeTabIndices.length; i++) {
+      // 初期化
+      if (find == null) find = tabs[activeTabIndices[i]];
+
+      if (find.children != null && i + 1 < activeTabIndices.length)
+        find = find.children![activeTabIndices[i + 1]];
+    }
+    return find!;
   }
 
   /// 一番上の階層だと[0]とか[1]
@@ -23,11 +36,13 @@ class SidebarController extends StateNotifier<SidebarParameter> {
     if (state.activeTabIndices == null) {
       // 例えば[0, 0]が返ってくる
       List<int> newActiveTabIndices = _getFirstTabIndex(state.tabs, []);
-      //String tabId = newActiveTabData.tabId;
       if (newActiveTabIndices.length > 0) {
         setActiveTabIndices(newActiveTabIndices);
       }
     }
+    final initialRoutePath = findRoutePath(state.tabs, state.activeTabIndices!);
+    print(initialRoutePath);
+    state = state.copyWith(routePath: initialRoutePath.routePath);
   }
 
   /// こいつは初期化処理にしか使われてない
@@ -66,9 +81,7 @@ class SidebarController extends StateNotifier<SidebarParameter> {
     }
     return true;
   }
-}
 
-final sidebarControllerProvider = StateNotifierProvider.family
-    .autoDispose((ref, SidebarParameter paramerter) {
-  return SidebarController(paramerter);
-});
+  get routePath => state.routePath;
+  setRoutePath(T v) => state = state.copyWith(routePath: v);
+}

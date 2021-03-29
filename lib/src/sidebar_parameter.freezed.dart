@@ -16,10 +16,13 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$SidebarParameterTearOff {
   const _$SidebarParameterTearOff();
 
-  _SidebarParameter call(
-      {List<int>? activeTabIndices, required List<SidebarTab> tabs}) {
-    return _SidebarParameter(
+  _SidebarParameter<T> call<T>(
+      {List<int>? activeTabIndices,
+      T? routePath,
+      required List<SidebarTab<T>> tabs}) {
+    return _SidebarParameter<T>(
       activeTabIndices: activeTabIndices,
+      routePath: routePath,
       tabs: tabs,
     );
   }
@@ -29,35 +32,39 @@ class _$SidebarParameterTearOff {
 const $SidebarParameter = _$SidebarParameterTearOff();
 
 /// @nodoc
-mixin _$SidebarParameter {
+mixin _$SidebarParameter<T> {
   List<int>? get activeTabIndices => throw _privateConstructorUsedError;
-  List<SidebarTab> get tabs => throw _privateConstructorUsedError;
+  T? get routePath =>
+      throw _privateConstructorUsedError; // stateではあるが、parameterではない
+  List<SidebarTab<T>> get tabs => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $SidebarParameterCopyWith<SidebarParameter> get copyWith =>
+  $SidebarParameterCopyWith<T, SidebarParameter<T>> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $SidebarParameterCopyWith<$Res> {
+abstract class $SidebarParameterCopyWith<T, $Res> {
   factory $SidebarParameterCopyWith(
-          SidebarParameter value, $Res Function(SidebarParameter) then) =
-      _$SidebarParameterCopyWithImpl<$Res>;
-  $Res call({List<int>? activeTabIndices, List<SidebarTab> tabs});
+          SidebarParameter<T> value, $Res Function(SidebarParameter<T>) then) =
+      _$SidebarParameterCopyWithImpl<T, $Res>;
+  $Res call(
+      {List<int>? activeTabIndices, T? routePath, List<SidebarTab<T>> tabs});
 }
 
 /// @nodoc
-class _$SidebarParameterCopyWithImpl<$Res>
-    implements $SidebarParameterCopyWith<$Res> {
+class _$SidebarParameterCopyWithImpl<T, $Res>
+    implements $SidebarParameterCopyWith<T, $Res> {
   _$SidebarParameterCopyWithImpl(this._value, this._then);
 
-  final SidebarParameter _value;
+  final SidebarParameter<T> _value;
   // ignore: unused_field
-  final $Res Function(SidebarParameter) _then;
+  final $Res Function(SidebarParameter<T>) _then;
 
   @override
   $Res call({
     Object? activeTabIndices = freezed,
+    Object? routePath = freezed,
     Object? tabs = freezed,
   }) {
     return _then(_value.copyWith(
@@ -65,85 +72,102 @@ class _$SidebarParameterCopyWithImpl<$Res>
           ? _value.activeTabIndices
           : activeTabIndices // ignore: cast_nullable_to_non_nullable
               as List<int>?,
+      routePath: routePath == freezed
+          ? _value.routePath
+          : routePath // ignore: cast_nullable_to_non_nullable
+              as T?,
       tabs: tabs == freezed
           ? _value.tabs
           : tabs // ignore: cast_nullable_to_non_nullable
-              as List<SidebarTab>,
+              as List<SidebarTab<T>>,
     ));
   }
 }
 
 /// @nodoc
-abstract class _$SidebarParameterCopyWith<$Res>
-    implements $SidebarParameterCopyWith<$Res> {
-  factory _$SidebarParameterCopyWith(
-          _SidebarParameter value, $Res Function(_SidebarParameter) then) =
-      __$SidebarParameterCopyWithImpl<$Res>;
+abstract class _$SidebarParameterCopyWith<T, $Res>
+    implements $SidebarParameterCopyWith<T, $Res> {
+  factory _$SidebarParameterCopyWith(_SidebarParameter<T> value,
+          $Res Function(_SidebarParameter<T>) then) =
+      __$SidebarParameterCopyWithImpl<T, $Res>;
   @override
-  $Res call({List<int>? activeTabIndices, List<SidebarTab> tabs});
+  $Res call(
+      {List<int>? activeTabIndices, T? routePath, List<SidebarTab<T>> tabs});
 }
 
 /// @nodoc
-class __$SidebarParameterCopyWithImpl<$Res>
-    extends _$SidebarParameterCopyWithImpl<$Res>
-    implements _$SidebarParameterCopyWith<$Res> {
+class __$SidebarParameterCopyWithImpl<T, $Res>
+    extends _$SidebarParameterCopyWithImpl<T, $Res>
+    implements _$SidebarParameterCopyWith<T, $Res> {
   __$SidebarParameterCopyWithImpl(
-      _SidebarParameter _value, $Res Function(_SidebarParameter) _then)
-      : super(_value, (v) => _then(v as _SidebarParameter));
+      _SidebarParameter<T> _value, $Res Function(_SidebarParameter<T>) _then)
+      : super(_value, (v) => _then(v as _SidebarParameter<T>));
 
   @override
-  _SidebarParameter get _value => super._value as _SidebarParameter;
+  _SidebarParameter<T> get _value => super._value as _SidebarParameter<T>;
 
   @override
   $Res call({
     Object? activeTabIndices = freezed,
+    Object? routePath = freezed,
     Object? tabs = freezed,
   }) {
-    return _then(_SidebarParameter(
+    return _then(_SidebarParameter<T>(
       activeTabIndices: activeTabIndices == freezed
           ? _value.activeTabIndices
           : activeTabIndices // ignore: cast_nullable_to_non_nullable
               as List<int>?,
+      routePath: routePath == freezed
+          ? _value.routePath
+          : routePath // ignore: cast_nullable_to_non_nullable
+              as T?,
       tabs: tabs == freezed
           ? _value.tabs
           : tabs // ignore: cast_nullable_to_non_nullable
-              as List<SidebarTab>,
+              as List<SidebarTab<T>>,
     ));
   }
 }
 
 /// @nodoc
-class _$_SidebarParameter
+class _$_SidebarParameter<T>
     with DiagnosticableTreeMixin
-    implements _SidebarParameter {
-  _$_SidebarParameter({this.activeTabIndices, required this.tabs});
+    implements _SidebarParameter<T> {
+  _$_SidebarParameter(
+      {this.activeTabIndices, this.routePath, required this.tabs});
 
   @override
   final List<int>? activeTabIndices;
   @override
-  final List<SidebarTab> tabs;
+  final T? routePath;
+  @override // stateではあるが、parameterではない
+  final List<SidebarTab<T>> tabs;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'SidebarParameter(activeTabIndices: $activeTabIndices, tabs: $tabs)';
+    return 'SidebarParameter<$T>(activeTabIndices: $activeTabIndices, routePath: $routePath, tabs: $tabs)';
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(DiagnosticsProperty('type', 'SidebarParameter'))
+      ..add(DiagnosticsProperty('type', 'SidebarParameter<$T>'))
       ..add(DiagnosticsProperty('activeTabIndices', activeTabIndices))
+      ..add(DiagnosticsProperty('routePath', routePath))
       ..add(DiagnosticsProperty('tabs', tabs));
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _SidebarParameter &&
+        (other is _SidebarParameter<T> &&
             (identical(other.activeTabIndices, activeTabIndices) ||
                 const DeepCollectionEquality()
                     .equals(other.activeTabIndices, activeTabIndices)) &&
+            (identical(other.routePath, routePath) ||
+                const DeepCollectionEquality()
+                    .equals(other.routePath, routePath)) &&
             (identical(other.tabs, tabs) ||
                 const DeepCollectionEquality().equals(other.tabs, tabs)));
   }
@@ -152,25 +176,30 @@ class _$_SidebarParameter
   int get hashCode =>
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(activeTabIndices) ^
+      const DeepCollectionEquality().hash(routePath) ^
       const DeepCollectionEquality().hash(tabs);
 
   @JsonKey(ignore: true)
   @override
-  _$SidebarParameterCopyWith<_SidebarParameter> get copyWith =>
-      __$SidebarParameterCopyWithImpl<_SidebarParameter>(this, _$identity);
+  _$SidebarParameterCopyWith<T, _SidebarParameter<T>> get copyWith =>
+      __$SidebarParameterCopyWithImpl<T, _SidebarParameter<T>>(
+          this, _$identity);
 }
 
-abstract class _SidebarParameter implements SidebarParameter {
+abstract class _SidebarParameter<T> implements SidebarParameter<T> {
   factory _SidebarParameter(
       {List<int>? activeTabIndices,
-      required List<SidebarTab> tabs}) = _$_SidebarParameter;
+      T? routePath,
+      required List<SidebarTab<T>> tabs}) = _$_SidebarParameter<T>;
 
   @override
   List<int>? get activeTabIndices => throw _privateConstructorUsedError;
   @override
-  List<SidebarTab> get tabs => throw _privateConstructorUsedError;
+  T? get routePath => throw _privateConstructorUsedError;
+  @override // stateではあるが、parameterではない
+  List<SidebarTab<T>> get tabs => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$SidebarParameterCopyWith<_SidebarParameter> get copyWith =>
+  _$SidebarParameterCopyWith<T, _SidebarParameter<T>> get copyWith =>
       throw _privateConstructorUsedError;
 }

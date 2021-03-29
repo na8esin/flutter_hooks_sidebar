@@ -6,8 +6,9 @@ import 'sidebar_tab.dart';
 part 'sidebar_parameter.freezed.dart';
 
 @freezed
-abstract class SidebarParameter with _$SidebarParameter {
+class SidebarParameter<T> with _$SidebarParameter<T> {
   factory SidebarParameter(
       {List<int>? activeTabIndices,
-      required List<SidebarTab> tabs}) = _SidebarParameter;
+      T? routePath, // stateではあるが、parameterではない
+      required List<SidebarTab<T>> tabs}) = _SidebarParameter;
 }
