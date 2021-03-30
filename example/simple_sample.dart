@@ -75,6 +75,7 @@ class MyHomePage extends HookWidget {
         Sidebar(
           controller: controller,
           tabs: tabs,
+          onTabChanged: controller.setRoutePath,
         ),
         VerticalDivider(thickness: 1, width: 1),
         Expanded(
@@ -87,12 +88,21 @@ class MyHomePage extends HookWidget {
   }
 }
 
+class RoutePathController extends StateNotifier<RoutePath> {
+  RoutePathController(state) : super(state);
+
+  void onTabChange(RoutePath path) {
+    state = path;
+  }
+}
+
 class MyMainWidget extends HookWidget {
   @override
   Widget build(BuildContext context) {
-    final _con = useProvider(sidebarControllerProvider.state);
+    final parameter = useProvider(sidebarControllerProvider.state);
+
     return Container(
-      child: Text('${_con.routePath}'),
+      child: Text('${parameter.routePath}'),
     );
   }
 }

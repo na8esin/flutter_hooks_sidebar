@@ -4,7 +4,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'custom_expansion_tile.dart';
 import 'sidebar_controller.dart';
-import 'sidebar_parameter.dart';
 import 'sidebar_tab.dart';
 import 'rotating_translation_arrow.dart';
 
@@ -15,6 +14,7 @@ class Sidebar<T> extends HookWidget {
   Sidebar(
       {required this.tabs,
       required this.controller,
+      required this.onTabChanged,
       this.defaultRoutePath,
       this.activeTabIndices,
       this.key})
@@ -23,6 +23,7 @@ class Sidebar<T> extends HookWidget {
   // 型が曖昧だったの作り替えた
   final List<SidebarTab> tabs;
   final SidebarController<T> controller;
+  final void Function(T) onTabChanged;
   final T? defaultRoutePath;
   final List<int>? activeTabIndices;
 
@@ -58,7 +59,7 @@ class Sidebar<T> extends HookWidget {
                 data: tabs[index],
                 controller: controller,
                 animationController: animationController,
-                onTabChanged: controller.setRoutePath,
+                onTabChanged: onTabChanged,
                 // builderが作り出すただの連番
                 index: index,
               ),

@@ -41,7 +41,6 @@ class SidebarController<T> extends StateNotifier<SidebarParameter<T>> {
       }
     }
     final initialRoutePath = findRoutePath(state.tabs, state.activeTabIndices!);
-    print(initialRoutePath);
     state = state.copyWith(routePath: initialRoutePath.routePath);
   }
 
