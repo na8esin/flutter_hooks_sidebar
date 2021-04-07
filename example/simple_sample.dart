@@ -55,7 +55,8 @@ final tabs = [
       ])
 ];
 
-final sidebarControllerProvider = StateNotifierProvider.autoDispose((
+final sidebarControllerProvider = StateNotifierProvider.autoDispose<
+    SidebarController<RoutePath>, SidebarParameter<RoutePath>>((
   ref,
 ) {
   return SidebarController<RoutePath>(SidebarParameter<RoutePath>(
@@ -69,10 +70,10 @@ final sidebarControllerProvider = StateNotifierProvider.autoDispose((
 class MyHomePage extends HookWidget {
   @override
   Widget build(BuildContext context) {
-    final controller = useProvider(sidebarControllerProvider);
+    final controller = useProvider(sidebarControllerProvider.notifier);
     return Row(
       children: [
-        Sidebar(
+        Sidebar<RoutePath>(
           controller: controller,
           tabs: tabs,
           onTabChanged: controller.setRoutePath,
@@ -99,7 +100,7 @@ class RoutePathController extends StateNotifier<RoutePath> {
 class MyMainWidget extends HookWidget {
   @override
   Widget build(BuildContext context) {
-    final parameter = useProvider(sidebarControllerProvider.state);
+    final parameter = useProvider(sidebarControllerProvider);
 
     return Container(
       child: Text('${parameter.routePath}'),

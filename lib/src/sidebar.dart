@@ -115,7 +115,7 @@ class SidebarItem<T> extends HookWidget {
     final _indices = indices ?? [index!];
 
     // stateの監視のためだけに必要
-    useProvider(isSelectedProvider(controller).state);
+    useProvider(isSelectedProvider(controller));
     useListenable(animationController);
 
     if (data.children == null)
