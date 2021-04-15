@@ -18,6 +18,9 @@ class MyScaffold extends HookWidget {
   }
 }
 
+// Navigator 2.0で使えるようなPathクラス
+// RouteInformationParserとかRouterDelegateなどの
+// Genericsのタイプ変数の部分に当てはめて使う
 abstract class RoutePath {}
 
 class ChapAPath extends RoutePath {}
