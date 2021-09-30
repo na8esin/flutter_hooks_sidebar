@@ -80,7 +80,7 @@ final isSelectedProvider =
 
 /// 再帰的なwidget
 /// 子要素はヘッダをタップした時に作られる
-class SidebarItem<T> extends HookWidget {
+class SidebarItem<T> extends HookConsumerWidget {
   final SidebarTab data;
 
   /// 主にタブの選択状態の管理
@@ -108,14 +108,14 @@ class SidebarItem<T> extends HookWidget {
   /// buildメソッドとの違いは無い
   /// rootはthis.data
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     /// 一番上の要素にはindicesがなくてindexがただ連番で入る
     /// chapterA => [0]
     /// chapterB => [1]
     final _indices = indices ?? [index!];
 
     // stateの監視のためだけに必要
-    useProvider(isSelectedProvider(controller));
+    ref.watch(isSelectedProvider(controller));
     useListenable(animationController);
 
     if (data.children == null)

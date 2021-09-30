@@ -1,7 +1,6 @@
 name: flutter_hooks_sidebar
 description: A new Flutter package project.
-version: 0.0.4
-author:
+version: 0.0.5
 homepage:
 
 environment:
@@ -11,8 +10,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_hooks: ^0.16.0
-  hooks_riverpod: ^0.14.0+1
+  flutter_hooks: ^0.18.0
+  hooks_riverpod: ^1.0.0-dev.7
   freezed_annotation: ^0.14.1
 
 
